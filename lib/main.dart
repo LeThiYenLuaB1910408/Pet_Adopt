@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adopt/pages/onboard.dart';
+import 'package:flutter/services.dart';
+import 'package:pet_adopt/pages/login/login_screen.dart';
+import 'package:pet_adopt/pages/onboard/onboard_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Pet Adopt',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: const OnBoardPage(),
+      home: const LoginScreen(),
     );
   }
 }

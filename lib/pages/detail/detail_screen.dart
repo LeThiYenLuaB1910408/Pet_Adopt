@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/pets_models.dart';
+import 'package:pet_adopt/models/pets_model.dart';
 import 'package:readmore/readmore.dart';
 
 class DetailPage extends StatefulWidget {
@@ -145,7 +145,7 @@ class _DetailPageState extends State<DetailPage> {
                                 ),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(right:10),
+                                margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
@@ -153,7 +153,9 @@ class _DetailPageState extends State<DetailPage> {
                                     boxShadow: [
                                       BoxShadow(
                                           offset: Offset(0, 3),
-                                          color: widget.pet.fav ? red : black.withOpacity(.6),
+                                          color: widget.pet.fav
+                                              ? red
+                                              : black.withOpacity(.6),
                                           spreadRadius: 1,
                                           blurRadius: 5)
                                     ]),
@@ -199,7 +201,8 @@ class _DetailPageState extends State<DetailPage> {
                                     shape: BoxShape.circle,
                                     color: red,
                                     image: DecorationImage(
-                                        image: AssetImage(widget.pet.owner.image))),
+                                        image: AssetImage(
+                                            widget.pet.owner.image))),
                               ),
                               const SizedBox(width: 10),
                               Expanded(

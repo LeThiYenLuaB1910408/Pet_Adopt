@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/pets_models.dart';
-import 'package:pet_adopt/pages/detail.dart';
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+import 'package:pet_adopt/models/pets_model.dart';
+import 'package:pet_adopt/pages/detail/detail_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> categories = ['Cats', 'Dogs', 'Hamsters'];
   String category = 'Cats';
-  List<Pet> pets = cats;
+  // List<Pet> pets = cats;
+  var petsManager = PetsManager();
   int selectedPage = 0;
   List<IconData> icons = [
     Icons.home_outlined,
@@ -249,13 +251,6 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             setState(() {
                               category = categories[index];
-                              if (categories[index] == 'Cats') {
-                                pets = cats;
-                              } else if (categories[index] == 'Dogs') {
-                                pets = dogs;
-                              } else if (categories[index] == 'Hamsters') {
-                                pets = hamsters;
-                              }
                             });
                           },
                           child: Container(
@@ -335,22 +330,29 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
-                    cats.length,
+                    petsManager.getListPet(category).length,
                     (index) => Padding(
                       padding: index == 0
-                          ? const EdgeInsets.symmetric(horizontal: 20)
-                          : const EdgeInsets.only(right: 20),
+                          ? const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            )
+                          : const EdgeInsets.only(
+                              right: 20,
+                            ),
                       child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailPage(pet: pets[index]),
-                              ),
-                            );
-                          },
-                          child: PetItem(pet: pets[index])),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                  pet: petsManager.getListPet(category)[index]),
+                            ),
+                          );
+                        },
+                        child: PetItem(
+                            pet: petsManager.getListPet(category)[index]),
+                      ),
                     ),
                   ),
                 ),
@@ -359,71 +361,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-            height: 50,
-            color: white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(
-                  icons.length,
-                  (index) => GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedPage = index;
-                          });
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 50,
-                          padding: const EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                height: 60,
-                                width: 50,
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      icons[index],
-                                      color: selectedPage == index
-                                          ? blue
-                                          : black.withOpacity(.6),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    selectedPage == index
-                                        ? Container(
-                                            height: 5,
-                                            width: 5,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: blue),
-                                          )
-                                        : Container()
-                                  ],
-                                ),
-                              ),
-                              index == 2
-                                  ? Positioned(
-                                      right: 0,
-                                      top: -5,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: blue,
-                                        ),
-                                        child: Text(
-                                          '6',
-                                          style: poppins.copyWith(color: white),
-                                        ),
-                                      ),
-                                    )
-                                  : Container()
-                            ],
-                          ),
-                        ),
-                      )),
-            )),
       ),
     );
   }

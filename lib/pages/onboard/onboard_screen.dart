@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/onboards_models.dart';
-import 'package:pet_adopt/pages/home.dart';
+import 'package:pet_adopt/models/onboards_model.dart';
+import 'package:pet_adopt/pages/home/home.dart';
 
 class OnBoardPage extends StatefulWidget {
   const OnBoardPage({Key? key}) : super(key: key);
