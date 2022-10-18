@@ -4,6 +4,7 @@ import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/pages/detail/detail_screen.dart';
+import 'package:pet_adopt/pages/viewall/viewall.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -317,8 +318,25 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: orange),
-                          child: const Icon(Icons.keyboard_arrow_right_rounded,
-                              size: 14, color: white),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ViewAllPage(
+                                          // pet: petsManager
+                                          //     .getListPet(category)[index]),
+                                          )),
+                                  (route) => false);
+                            },
+                            child: const Icon(
+                                Icons.keyboard_arrow_right_rounded,
+                                size: 14,
+                                color: white),
+
+                            // child: PetItem(
+                            //     pet: petsManager.getListPet(category)[index]),
+                          ),
                         )
                       ],
                     ),

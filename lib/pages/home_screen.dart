@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:pet_adopt/pages/chat/chat_screen.dart';
 import 'package:pet_adopt/pages/favorite_screen.dart';
 import 'package:pet_adopt/pages/home/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/pages/user/user_screen.dart';
+import 'package:pet_adopt/pages/viewall/viewall.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,13 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedPage = 0;
   List<IconData> icons = [
     Icons.home_outlined,
-    Icons.favorite_outline_rounded,
+    LineIcons.paw,
     Icons.chat_outlined,
     Icons.person_outline_rounded
   ];
   List pages = [
     HomePage(),
-    FavoritePage(),
+    ViewAllPage(),
     ChatPage(),
     UserPage(),
   ];

@@ -164,8 +164,8 @@ class PetsManager {
         owner: ownersManager.owners[6]),
   ];
 
-  List<Pet> get cats {
-    return [..._cats];
+  List<Pet> get pets {
+    return [..._cats, ..._dogs, ..._hamsters];
   }
 
   List<Pet> getListPet(String name) {

@@ -55,4 +55,13 @@ class OwnerManager {
     }
     return null;
   }
+
+  bool addOwner(String username, String password) {
+    var res = accountsManager
+        .addAccount(Accounts(username: username, password: password));
+    if (res == true) {
+      return true;
+    }
+    return false;
+  }
 }

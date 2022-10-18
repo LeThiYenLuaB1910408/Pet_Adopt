@@ -19,4 +19,15 @@ class AccountsManager {
     }
     return null;
   }
+
+  bool addAccount(Accounts account) {
+    var result = _accounts.firstWhere(
+        (props) => props.username == account.username,
+        orElse: () => Accounts(username: '', password: ''));
+    if (result.username == '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

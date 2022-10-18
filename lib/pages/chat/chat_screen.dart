@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
         title: Text('Chats',
             style: poppins.copyWith(
               // color: black,
-              fontSize: 30,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             )),
       ),

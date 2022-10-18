@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pet_adopt/pages/login/login_screen.dart';
-import 'package:pet_adopt/pages/onboard/onboard_screen.dart';
+import 'package:pet_adopt/pages/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Pet Adopt',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
