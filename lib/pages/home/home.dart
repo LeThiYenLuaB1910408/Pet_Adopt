@@ -4,6 +4,7 @@ import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/pages/detail/detail_screen.dart';
+import 'package:pet_adopt/pages/search/search_screen.dart';
 import 'package:pet_adopt/pages/viewall/viewall.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> categories = ['Cats', 'Dogs', 'Hamsters'];
   String category = 'Cats';
-  // List<Pet> pets = cats;
   var petsManager = PetsManager();
   int selectedPage = 0;
   List<IconData> icons = [
@@ -80,7 +80,17 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const Icon(Icons.search),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchScreen(),
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(
                       width: 5,
                     ),
@@ -313,29 +323,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: orange),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const ViewAllPage(
-                                          // pet: petsManager
-                                          //     .getListPet(category)[index]),
-                                          )),
-                                  (route) => false);
-                            },
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ViewAllPage(
+                                    // pet: petsManager
+                                    //     .getListPet(category)[index]),
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: orange),
                             child: const Icon(
                                 Icons.keyboard_arrow_right_rounded,
                                 size: 14,
                                 color: white),
-
-                            // child: PetItem(
-                            //     pet: petsManager.getListPet(category)[index]),
                           ),
                         )
                       ],
@@ -369,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                         child: PetItem(
-                            pet: petsManager.getListPet(category)[index]),
+                            context, petsManager.getListPet(category)[index]),
                       ),
                     ),
                   ),
@@ -382,17 +390,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
 
-class PetItem extends StatelessWidget {
-  final Pet pet;
-  const PetItem({
-    Key? key,
-    required this.pet,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget PetItem(BuildContext context, Pet pet) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
       child: Container(
@@ -471,14 +470,26 @@ class PetItem extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: white),
-                    child: Icon(
-                      pet.fav
-                          ? Icons.favorite_rounded
-                          : Icons.favorite_outline_rounded,
-                      color: pet.fav ? red : black.withOpacity(.6),
+                    width: 40,
+                    height: 40,
+                    padding: const EdgeInsets.all(0),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: white),
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: pet.isFavoriteListenable,
+                      builder: (ctx, isFavorite, child) => IconButton(
+                        padding: const EdgeInsets.all(0),
+                        icon: Icon(
+                          size: 24,
+                          pet.isFavorite
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_outline_rounded,
+                          color: pet.isFavorite ? red : black.withOpacity(.6),
+                        ),
+                        onPressed: () {
+                          pet.isFavorite = !isFavorite;
+                        },
+                      ),
                     ),
                   ),
                 ],

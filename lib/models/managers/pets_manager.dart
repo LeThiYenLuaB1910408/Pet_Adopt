@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/owner_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
@@ -10,7 +11,7 @@ String tl =
     'This hamster is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic hamster to distinguish it from the wild members of the family. A hamster can either be a house hamster, a farm hamster or a feral hamster, the latter rangers freely and avoids human contacts. Domestic hamsters are valued by humans for companionship and their ability to kill redonts. About 60 hamster breeds are recognized by various hamster registries. ';
 var ownersManager = OwnerManager();
 
-class PetsManager {
+class PetsManager  with ChangeNotifier{
   final List<Pet> _cats = [
     Pet(
         fav: true,
@@ -168,6 +169,12 @@ class PetsManager {
     return [..._cats, ..._dogs, ..._hamsters];
   }
 
+  List<Pet> get petIsfav{
+    List <Pet> _pets = [..._cats, ..._dogs, ..._hamsters];
+   return _pets.where((petItem) => petItem.isFavorite).toList();
+ 
+  } 
+
   List<Pet> getListPet(String name) {
     if (name == "Cats") {
       return _cats;
@@ -179,15 +186,4 @@ class PetsManager {
     return _cats;
   }
 
-  List<Pet> get favoriteCats {
-    return _cats.where((prodItem) => prodItem.fav).toList();
-  }
-
-  List<Pet> get favoriteDogs {
-    return _dogs.where((prodItem) => prodItem.fav).toList();
-  }
-
-  List<Pet> get favoriteHamsters {
-    return _hamsters.where((prodItem) => prodItem.fav).toList();
-  }
 }

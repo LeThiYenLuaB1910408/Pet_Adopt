@@ -17,7 +17,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
+        body: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
@@ -145,6 +145,8 @@ class _DetailPageState extends State<DetailPage> {
                                 ),
                               ),
                               Container(
+                                width: 40,
+                                height: 40,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
@@ -153,21 +155,33 @@ class _DetailPageState extends State<DetailPage> {
                                     boxShadow: [
                                       BoxShadow(
                                           offset: Offset(0, 3),
-                                          color: widget.pet.fav
+                                          color: widget.pet.isFavorite
                                               ? red
                                               : black.withOpacity(.6),
                                           spreadRadius: 1,
                                           blurRadius: 5)
                                     ]),
-                                child: Icon(
-                                  widget.pet.fav
-                                      ? Icons.favorite_rounded
-                                      : Icons.favorite_border_rounded,
-                                  color: widget.pet.fav
-                                      ? red
-                                      : black.withOpacity(.6),
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable:
+                                      widget.pet.isFavoriteListenable,
+                                  builder: (ctx, isFavorite, child) =>
+                                      IconButton(
+                                    padding: const EdgeInsets.all(0),
+                                    icon: Icon(
+                                      size: 24,
+                                      widget.pet.isFavorite
+                                          ? Icons.favorite_rounded
+                                          : Icons.favorite_outline_rounded,
+                                      color: widget.pet.isFavorite
+                                          ? red
+                                          : black.withOpacity(.6),
+                                    ),
+                                    onPressed: () {
+                                      widget.pet.isFavorite = !isFavorite;
+                                    },
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                           const SizedBox(height: 30),
