@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
+import 'package:pet_adopt/pages/user/user_manager_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_adopt/pages/login/login_screen.dart';
 
@@ -54,6 +57,43 @@ class SettingScreen extends StatelessWidget {
               Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserManagerScreen(),
+                        ));
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.storage,
+                        size: 16,
+                        color: blue,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Managers',
+                        style: poppins.copyWith(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                          padding: const EdgeInsets.all(3),
+                          child: const Icon(
+                            Icons.keyboard_arrow_right_rounded,
+                            size: 14,
+                            color: blue,
+                          ))
+                    ],
+                  ),
+                ),
+              ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Row(
                   children: [
                     const Icon(
@@ -89,6 +129,7 @@ class SettingScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => const LoginScreen()),
                         (route) => false);
+                    context.read<AuthManager>().logout();
                   },
                   child: Row(
                     children: [

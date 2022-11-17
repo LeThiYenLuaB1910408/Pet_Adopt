@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adopt/const.dart';
+import 'package:provider/provider.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
 import 'package:pet_adopt/pages/setting/setting_screen.dart';
 
 class UserPage extends StatelessWidget {
@@ -52,7 +54,12 @@ class UserPage extends StatelessWidget {
                       child: CircleAvatar(
                         backgroundColor: blue,
                         child: Text(
-                          'L',
+                          // context
+                          //     .read<AuthManager>()
+                          //     .authToken!
+                          //     .email[0]
+                          //     .toUpperCase(),
+                          'T',
                           style: poppins.copyWith(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -62,7 +69,7 @@ class UserPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Le Thi Yen Lua",
+                    "tenssss",
                     style: poppins.copyWith(
                       fontSize: 30,
                     ),
@@ -108,7 +115,7 @@ class UserPage extends StatelessWidget {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  '0384944147',
+                                  '0456478555',
                                   style: poppins.copyWith(
                                     color: black.withOpacity(0.5),
                                   ),
@@ -136,7 +143,8 @@ class UserPage extends StatelessWidget {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  'LuaB1910408@student.ctu.edu.vn',
+                                  // context.read<AuthManager>().authToken!.email,
+                                  'Mail',
                                   style: poppins.copyWith(
                                     color: black.withOpacity(0.5),
                                   ),

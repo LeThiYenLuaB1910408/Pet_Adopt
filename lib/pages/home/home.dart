@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/pages/detail/detail_screen.dart';
 import 'package:pet_adopt/pages/search/search_screen.dart';
 import 'package:pet_adopt/pages/viewall/viewall.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read<AuthManager>().authToken?.userId);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -397,7 +400,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * .35,
         width: MediaQuery.of(context).size.width * .6,
-        color: pet.color.withOpacity(.6),
+        color: Colors.red.withOpacity(.6),
         child: Stack(
           children: [
             Positioned(
@@ -409,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                 angle: 12,
                 child: SvgPicture.asset(
                   'assets/Paw_Print.svg',
-                  color: pet.color,
+                  color: Colors.red,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -423,7 +426,7 @@ class _HomePageState extends State<HomePage> {
                 angle: -11.5,
                 child: SvgPicture.asset(
                   'assets/Paw_Print.svg',
-                  color: pet.color,
+                  color: Colors.red,
                   fit: BoxFit.cover,
                 ),
               ),

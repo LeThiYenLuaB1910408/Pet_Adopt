@@ -17,72 +17,96 @@ class ViewAllPage extends StatefulWidget {
 
 class _ViewAllPageState extends State<ViewAllPage> {
   var petsManager = PetsManager();
-  bool isFav = false;
+  final _showOnlyFavorites = ValueNotifier<bool>(false);
+
+  late Future<void> _fetchPets;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPets = context.read<PetsManager>().fetchPets();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final pets = context.select<PetsManager, List<Pet>>(
-        (petsManager) => isFav ? petsManager.petIsfav : petsManager.pets);
+    final pets = context.select<PetsManager, List<Pet>>((petsManager) =>
+        _showOnlyFavorites.value ? petsManager.petIsfav : petsManager.pets);
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: blue,
-            title: Row(
-              children: [
-                isFav
-                    ? Text(
-                        "Only Favorites",
-                        style: poppins.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : Text(
-                        "View All",
-                        style: poppins.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+        appBar: AppBar(
+          backgroundColor: blue,
+          title: Row(
+            children: [
+              _showOnlyFavorites.value
+                  ? Text(
+                      "Only Favorites",
+                      style: poppins.copyWith(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                const Spacer(),
-                PopupMenuButton(
-                  onSelected: (FilterOptions selectedValue) {
-                    setState(() {
-                      if (selectedValue == FilterOptions.favorites) {
-                        isFav = true;
-                      } else {
-                        isFav = false;
-                      }
-                    });
-                  },
-                  position: PopupMenuPosition.under,
-                  icon: const Icon(
-                    Icons.more_vert,
-                  ),
-                  itemBuilder: (ctx) => [
-                    const PopupMenuItem(
-                      value: FilterOptions.favorites,
-                      child: Text('Only Favorites'),
-                    ),
-                    const PopupMenuItem(
-                      value: FilterOptions.all,
-                      child: Text('View All'),
                     )
-                  ],
+                  : Text(
+                      "View All",
+                      style: poppins.copyWith(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              const Spacer(),
+              PopupMenuButton(
+                onSelected: (FilterOptions selectedValue) {
+                  setState(() {
+                    if (selectedValue == FilterOptions.favorites) {
+                      _showOnlyFavorites.value = true;
+                    } else {
+                      _showOnlyFavorites.value = false;
+                    }
+                  });
+                },
+                position: PopupMenuPosition.under,
+                icon: const Icon(
+                  Icons.more_vert,
                 ),
-              ],
-            ),
+                itemBuilder: (ctx) => [
+                  const PopupMenuItem(
+                    value: FilterOptions.favorites,
+                    child: Text('Only Favorites'),
+                  ),
+                  const PopupMenuItem(
+                    value: FilterOptions.all,
+                    child: Text('View All'),
+                  )
+                ],
+              ),
+            ],
           ),
-          body: GridView.builder(
-            padding: const EdgeInsets.all(10.0),
-            itemCount: pets.length,
-            itemBuilder: (ctx, i) => PetGridTile(context, pets[i]),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-          )),
+        ),
+        body: FutureBuilder(
+            future: _fetchPets,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return ValueListenableBuilder<bool>(
+                    valueListenable: _showOnlyFavorites,
+                    builder: (context, onlyFavorites, child) {
+                      return GridView.builder(
+                          padding: const EdgeInsets.all(10.0),
+                          itemCount: pets.length,
+                          itemBuilder: (ctx, i) =>
+                              PetGridTile(context, pets[i]),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ));
+                    });
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+      ),
     );
   }
 
@@ -101,7 +125,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
         child: Container(
           height: MediaQuery.of(context).size.height * .5,
           width: MediaQuery.of(context).size.width * .6,
-          color: pet.color.withOpacity(.6),
+          color: Colors.red.withOpacity(.6),
           child: Stack(
             children: [
               Positioned(
@@ -113,7 +137,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                   angle: 12,
                   child: SvgPicture.asset(
                     'assets/Paw_Print.svg',
-                    color: pet.color,
+                    color: Colors.red,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -127,7 +151,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                   angle: -11.5,
                   child: SvgPicture.asset(
                     'assets/Paw_Print.svg',
-                    color: pet.color,
+                    color: Colors.red,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -141,7 +165,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                 ),
               ),
               Container(
-                color: pet.color.withOpacity(.4),
+                color: Colors.red.withOpacity(.4),
                 height: MediaQuery.of(context).size.height * .1,
                 padding: const EdgeInsets.all(10),
                 child: Row(
@@ -193,7 +217,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                             color: pet.isFavorite ? red : black.withOpacity(.6),
                           ),
                           onPressed: () {
-                            pet.isFavorite = !isFavorite;
+                            ctx.read<PetsManager>().toggleFavoriteStatus(pet);
                           },
                         ),
                       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:readmore/readmore.dart';
+import 'package:provider/provider.dart';
 
 class DetailPage extends StatefulWidget {
   final Pet pet;
@@ -25,7 +27,8 @@ class _DetailPageState extends State<DetailPage> {
                 height: MediaQuery.of(context).size.height * .5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: widget.pet.color.withOpacity(.5),
+                  // widget.pet.color
+                  color: Colors.red.withOpacity(.5),
                 ),
                 child: Stack(
                   children: [
@@ -36,7 +39,7 @@ class _DetailPageState extends State<DetailPage> {
                         angle: -11.5,
                         child: SvgPicture.asset(
                           'assets/Paw_Print.svg',
-                          color: widget.pet.color,
+                          color: Colors.red,
                           height: 300,
                         ),
                       ),
@@ -48,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
                         angle: 12,
                         child: SvgPicture.asset(
                           'assets/Paw_Print.svg',
-                          color: widget.pet.color,
+                          color: Colors.red,
                           height: 300,
                         ),
                       ),
@@ -177,7 +180,9 @@ class _DetailPageState extends State<DetailPage> {
                                           : black.withOpacity(.6),
                                     ),
                                     onPressed: () {
-                                      widget.pet.isFavorite = !isFavorite;
+                                      ctx
+                                          .read<PetsManager>()
+                                          .toggleFavoriteStatus(widget.pet);
                                     },
                                   ),
                                 ),
@@ -215,8 +220,10 @@ class _DetailPageState extends State<DetailPage> {
                                     shape: BoxShape.circle,
                                     color: red,
                                     image: DecorationImage(
-                                        image: AssetImage(
-                                            widget.pet.owner.image))),
+                                      image: AssetImage(
+                                          // widget.pet.owner.image,
+                                          "assets/cats/cat4.png"),
+                                    )),
                               ),
                               const SizedBox(width: 10),
                               Expanded(
@@ -224,7 +231,8 @@ class _DetailPageState extends State<DetailPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.pet.owner.name,
+                                      // widget.pet.owner.name,
+                                      "Lyly",
                                       style: poppins.copyWith(
                                           fontSize: 16,
                                           color: black,

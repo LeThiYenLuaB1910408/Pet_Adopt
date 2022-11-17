@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
 import 'package:pet_adopt/pages/home_screen.dart';
 import 'package:pet_adopt/pages/signup/signup_screen.dart';
+import 'package:provider/provider.dart';
+import '../../models/http_exception.dart';
+import '../../shared/dialog_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,10 +18,47 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final Map<String, String> _authData = {
+    'email': '',
+    'password': '',
+  };
+  final _isSubmitting = ValueNotifier<bool>(false);
+  final _passwordController = TextEditingController();
   bool hiddenPassword = true, errorLogin = false;
-  String username = '', password = '';
+
+  // String username = '', password = '';
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+
+    _isSubmitting.value = true;
+
+    try {
+      await context.read<AuthManager>().login(
+            _authData['email']!,
+            _authData['password']!,
+          );
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    } catch (error) {
+      showErrorDialog(
+          context,
+          (error is HttpException)
+              ? error.toString()
+              : 'Authentication failed');
+    }
+
+    _isSubmitting.value = false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(context.read<AuthManager>().authToken?.userId);
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -129,184 +169,175 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          width: MediaQuery.of(context).size.width,
-                          // alignment: Alignment.topLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  style: poppins.copyWith(
-                                    color: black,
-                                    fontSize: 16,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  text: "Username:",
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                alignment: Alignment.center,
-                                child: TextField(
-                                  onChanged: (value) {
-                                    setState(() {
-                                      username = value;
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    hintText: "Type your username",
-                                    hintStyle: TextStyle(
-                                      color: Color(0xF00).withOpacity(0.5),
-                                    ),
-                                    border: const UnderlineInputBorder(),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xF00).withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text.rich(
-                                TextSpan(
-                                  style: poppins.copyWith(
-                                    color: black,
-                                    fontSize: 16,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  text: "Password:",
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                alignment: Alignment.center,
-                                child: TextField(
-                                  obscureText: hiddenPassword,
-                                  enableSuggestions: false,
-                                  autocorrect: false,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      password = value;
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    hintText: "Type your Password",
-                                    hintStyle: TextStyle(
-                                      color:
-                                          const Color(0xF00).withOpacity(0.5),
-                                    ),
-                                    border: const UnderlineInputBorder(),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xF00).withOpacity(0.7),
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      icon: this.hiddenPassword
-                                          ? FaIcon(
-                                              FontAwesomeIcons.solidEye,
-                                              size: 16,
-                                            )
-                                          : FaIcon(
-                                              FontAwesomeIcons.solidEyeSlash,
-                                              size: 16,
-                                            ),
-                                      onPressed: () {
-                                        setState(() {
-                                          this.hiddenPassword =
-                                              !this.hiddenPassword;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              errorLogin
-                                  ? Text(
-                                      "Username or password incorrect",
-                                      style: poppins.copyWith(
-                                        color: red,
-                                      ),
-                                    )
-                                  : Container(),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      style: poppins.copyWith(
-                                        color: blue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                      text: "Forget Password?",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if (username != '' && password != '') {
-                              if (ownersManager.auth(username, password) !=
-                                  null) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen()),
-                                    (route) => false);
-                              } else {
-                                setState(() {
-                                  errorLogin = true;
-                                });
-                              }
-                            } else {
-                              setState(() {
-                                errorLogin = true;
-                              });
-                            }
-                          },
+                        Form(
+                          key: _formKey,
                           child: Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            decoration: BoxDecoration(
-                                color: blue,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      offset: Offset(0, 3),
-                                      color: blue,
-                                      spreadRadius: 0,
-                                      blurRadius: 5)
-                                ]),
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: poppins.copyWith(
-                                    color: white, fontSize: 16),
-                              ),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            width: MediaQuery.of(context).size.width,
+                            // alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text.rich(
+                                  TextSpan(
+                                    style: poppins.copyWith(
+                                      color: black,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    text: "Email:",
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _authData['email'] = value;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: "Type your email",
+                                      hintStyle: TextStyle(
+                                        color: Color(0xF00).withOpacity(0.5),
+                                      ),
+                                      border: const UnderlineInputBorder(),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xF00).withOpacity(0.7),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    style: poppins.copyWith(
+                                      color: black,
+                                      fontSize: 16,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    text: "Password:",
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  alignment: Alignment.center,
+                                  child: TextField(
+                                    obscureText: hiddenPassword,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _authData['password'] = value;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: "Type your Password",
+                                      hintStyle: TextStyle(
+                                        color:
+                                            const Color(0xF00).withOpacity(0.5),
+                                      ),
+                                      border: const UnderlineInputBorder(),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xF00).withOpacity(0.7),
+                                        ),
+                                      ),
+                                      suffixIcon: IconButton(
+                                        icon: this.hiddenPassword
+                                            ? FaIcon(
+                                                FontAwesomeIcons.solidEye,
+                                                size: 16,
+                                              )
+                                            : FaIcon(
+                                                FontAwesomeIcons.solidEyeSlash,
+                                                size: 16,
+                                              ),
+                                        onPressed: () {
+                                          setState(() {
+                                            this.hiddenPassword =
+                                                !this.hiddenPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                errorLogin
+                                    ? Text(
+                                        "Email or password incorrect",
+                                        style: poppins.copyWith(
+                                          color: red,
+                                        ),
+                                      )
+                                    : Container(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text.rich(
+                                      TextSpan(
+                                        style: poppins.copyWith(
+                                          color: blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        text: "Forget Password?",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                              ],
                             ),
                           ),
+                        ),
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _isSubmitting,
+                          builder: (context, isSubmitting, child) {
+                            if (isSubmitting) {
+                              return const CircularProgressIndicator();
+                            }
+                            return GestureDetector(
+                              onTap: _submit,
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                decoration: BoxDecoration(
+                                    color: blue,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          offset: Offset(0, 3),
+                                          color: blue,
+                                          spreadRadius: 0,
+                                          blurRadius: 5)
+                                    ]),
+                                child: Center(
+                                  child: Text(
+                                    "Login",
+                                    style: poppins.copyWith(
+                                        color: white, fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 15,
@@ -332,12 +363,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.pushAndRemoveUntil(
+                                        Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const SignUpScreen()),
-                                            (route) => false);
+                                                    const SignUpScreen()));
                                       }),
                                 TextSpan(
                                     text: "Or",
