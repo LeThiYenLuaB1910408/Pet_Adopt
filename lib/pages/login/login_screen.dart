@@ -1,14 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:pet_adopt/pages/home_screen.dart';
-import 'package:pet_adopt/pages/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
-import '../../models/http_exception.dart';
-import '../../shared/dialog_utils.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:pet_adopt/models/managers/auth_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/screens.dart';
+
+import 'package:pet_adopt/models/http_exception.dart';
+import 'package:pet_adopt/shared/dialog_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -57,8 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<AuthManager>().authToken?.userId);
-
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,

@@ -12,9 +12,6 @@ class PetsService extends FirebaseService {
     try {
       final filters =
           filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
-      print('userId $userId');
-      print('filter $filters');
-      print('token $token');
       final petsUrl = Uri.parse('$databaseUrl/pets.json?auth=$token&$filters');
       final response = await http.get(petsUrl);
       final petsMap = json.decode(response.body) as Map<String, dynamic>;
@@ -33,7 +30,6 @@ class PetsService extends FirebaseService {
         final isFavorite = (userFavoritesMap == null)
             ? false
             : (userFavoritesMap[petId] ?? false);
-        print(pet);
         pets.add(
           Pet.fromJson({
             'id': petId,
@@ -50,10 +46,7 @@ class PetsService extends FirebaseService {
 
   Future<Pet?> addPet(Pet pet) async {
     try {
-      print(1233);
-      print(token);
       final url = Uri.parse('$databaseUrl/pets.json?auth=$token');
-      print(url);
       final response = await http.post(
         url,
         body: json.encode(
@@ -63,7 +56,6 @@ class PetsService extends FirebaseService {
             }),
         ),
       );
-      print(response);
 
       if (response.statusCode != 200) {
         throw Exception(json.decode(response.body)['error']);

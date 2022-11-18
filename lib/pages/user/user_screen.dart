@@ -1,13 +1,14 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:pet_adopt/models/managers/owner_manager.dart';
-import 'package:pet_adopt/pages/login/login_screen.dart';
-import 'package:pet_adopt/pages/user/user_manager_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:pet_adopt/pages/setting/setting_screen.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:pet_adopt/models/managers/owner_manager.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/screens.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class UserPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SettingScreen(),
+                    builder: (context) => const SettingScreen(),
                   ),
                 );
               },
@@ -59,32 +60,35 @@ class UserPage extends StatelessWidget {
                     SingleChildScrollView(
                   child: Container(
                       height: MediaQuery.of(context).size.height * .84,
-                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
                       child: Column(
                         children: [
                           Center(
                             child: Container(
                               height: 120,
                               width: 120,
-                              // decoration: const BoxDecoration(
-                              //   shape: BoxShape.circle,
-                              //   color: red,
-                              //   image: DecorationImage(
-                              //     image: AssetImage('assets/owners/woman-with-cat1.png'),
-                              //     fit: BoxFit.cover,
-                              //   ),
-                              // ),
-                              child: CircleAvatar(
-                                backgroundColor: blue,
-                                child: Text(
-                                  ownerManager.owners.first.email[0]
-                                      .toUpperCase(),
-                                  style: poppins.copyWith(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: colorRandom[math.Random().nextInt(4)],
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      ownerManager.owners.first.image),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
+                              child: ownerManager.owners.first.image.isEmpty
+                                  ? CircleAvatar(
+                                      backgroundColor: blue,
+                                      child: Text(
+                                        ownerManager.owners.first.name[0]
+                                            .toUpperCase(),
+                                        style: poppins.copyWith(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    )
+                                  : null,
                             ),
                           ),
                           Text(
@@ -93,13 +97,13 @@ class UserPage extends StatelessWidget {
                               fontSize: 30,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text('Informations',
@@ -108,9 +112,9 @@ class UserPage extends StatelessWidget {
                                   )),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -139,7 +143,7 @@ class UserPage extends StatelessWidget {
                                       color: blue,
                                       size: 16,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Text(
                                       'Phone: ',
                                       style: poppins.copyWith(
@@ -158,8 +162,8 @@ class UserPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Divider(),
-                                SizedBox(height: 10),
+                                const Divider(),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     const Icon(
@@ -167,7 +171,7 @@ class UserPage extends StatelessWidget {
                                       color: blue,
                                       size: 16,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Text(
                                       'Email: ',
                                       style: poppins.copyWith(
@@ -186,8 +190,8 @@ class UserPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Divider(),
-                                SizedBox(height: 10),
+                                const Divider(),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     const Icon(
@@ -195,7 +199,7 @@ class UserPage extends StatelessWidget {
                                       color: blue,
                                       size: 16,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     Text(
                                       'Address: ',
                                       style: poppins.copyWith(
@@ -215,15 +219,15 @@ class UserPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                               ],
                             ),
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text('Options',
@@ -232,9 +236,9 @@ class UserPage extends StatelessWidget {
                                   )),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(10),
                             decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -256,54 +260,105 @@ class UserPage extends StatelessWidget {
                             ),
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.edit,
-                                      size: 16,
-                                      color: blue,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Edit profile',
-                                      style: poppins.copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                        padding: const EdgeInsets.all(3),
-                                        child: const Icon(
-                                          Icons.keyboard_arrow_right_rounded,
-                                          size: 14,
-                                          color: blue,
-                                        ))
-                                  ],
-                                ),
-                                Divider(),
-                                SizedBox(height: 10),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              UserManagerScreen(),
+                                              UserEditProfileScreen(
+                                                  owner: ownerManager
+                                                      .owners.first),
                                         ));
                                   },
+                                  child: Container(
+                                    color: white,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.edit,
+                                          size: 16,
+                                          color: blue,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          'Edit profile',
+                                          style: poppins.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const Spacer(),
+                                        Container(
+                                            padding: const EdgeInsets.all(3),
+                                            child: const Icon(
+                                              Icons
+                                                  .keyboard_arrow_right_rounded,
+                                              size: 14,
+                                              color: blue,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Divider(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UserManagerScreen(),
+                                        ));
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    color: white,
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          LineIcons.paw,
+                                          size: 22,
+                                          color: blue,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          'My Pets',
+                                          style: poppins.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const Spacer(),
+                                        Container(
+                                            padding: const EdgeInsets.all(3),
+                                            child: const Icon(
+                                              Icons
+                                                  .keyboard_arrow_right_rounded,
+                                              size: 14,
+                                              color: blue,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Divider(),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Row(
                                     children: [
                                       const Icon(
-                                        LineIcons.paw,
-                                        size: 22,
+                                        Icons.send,
+                                        size: 16,
                                         color: blue,
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
-                                        'My Pets',
+                                        'Send comments',
                                         style: poppins.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Container(
                                           padding: const EdgeInsets.all(3),
                                           child: const Icon(
@@ -314,36 +369,11 @@ class UserPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Divider(),
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.send,
-                                      size: 16,
-                                      color: blue,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Send comments',
-                                      style: poppins.copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Spacer(),
-                                    Container(
-                                        padding: const EdgeInsets.all(3),
-                                        child: const Icon(
-                                          Icons.keyboard_arrow_right_rounded,
-                                          size: 14,
-                                          color: blue,
-                                        ))
-                                  ],
-                                ),
-                                Divider(),
+                                const Divider(),
                               ],
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: const BoxDecoration(
@@ -369,7 +399,7 @@ class UserPage extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                               child: Container(
                                 color: Colors.grey.shade300,
                                 padding:
@@ -387,12 +417,12 @@ class UserPage extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      FaIcon(
+                                      const FaIcon(
                                         FontAwesomeIcons.arrowRightFromBracket,
                                         size: 16,
                                         color: black,
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
                                         'Log out',
                                         style: poppins.copyWith(

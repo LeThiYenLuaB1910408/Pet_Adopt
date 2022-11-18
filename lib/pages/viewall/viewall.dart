@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/pets_model.dart';
-import 'package:pet_adopt/pages/detail/detail_screen.dart';
-import 'package:provider/provider.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:pet_adopt/models/pets_model.dart';
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+
+import 'package:pet_adopt/pages/detail/detail_screen.dart';
+import 'package:pet_adopt/const.dart';
 
 enum FilterOptions { favorites, all }
 
@@ -112,7 +114,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
   }
 
   Widget PetGridTile(BuildContext context, Pet pet) {
-    print(pet.name);
+    Color color = colorRandom[math.Random().nextInt(4)];
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -120,7 +122,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
           MaterialPageRoute(
             builder: (context) => DetailPage(
               pet: pet,
-              color: colorRandom[math.Random().nextInt(4)],
+              color: color,
             ),
           ),
         );
@@ -130,7 +132,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
         child: Container(
           height: MediaQuery.of(context).size.height * .5,
           width: MediaQuery.of(context).size.width * .6,
-          color: Colors.red.withOpacity(.6),
+          color: color.withOpacity(.6),
           child: Stack(
             children: [
               Positioned(
@@ -142,7 +144,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                   angle: 12,
                   child: SvgPicture.asset(
                     'assets/Paw_Print.svg',
-                    color: Colors.red,
+                    color: color,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -156,7 +158,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                   angle: -11.5,
                   child: SvgPicture.asset(
                     'assets/Paw_Print.svg',
-                    color: Colors.red,
+                    color: color,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -170,7 +172,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
                 ),
               ),
               Container(
-                color: Colors.red.withOpacity(.4),
+                color: color.withOpacity(.4),
                 height: MediaQuery.of(context).size.height * .1,
                 padding: const EdgeInsets.all(10),
                 child: Row(

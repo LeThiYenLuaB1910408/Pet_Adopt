@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/onboards_model.dart';
-import 'package:pet_adopt/pages/home/home.dart';
-import 'package:pet_adopt/pages/home_screen.dart';
-import 'package:pet_adopt/pages/login/login_screen.dart';
-import 'package:pet_adopt/pages/splash_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'package:pet_adopt/models/onboards_model.dart';
+import 'package:pet_adopt/models/managers/auth_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/screens.dart';
 
 class OnBoardPage extends StatefulWidget {
   const OnBoardPage({Key? key}) : super(key: key);
@@ -19,14 +17,6 @@ class OnBoardPage extends StatefulWidget {
 
 class _OnBoardPageState extends State<OnBoardPage> {
   int currentPage = 0;
-
-  late Future<void> _fetchPets;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchPets = context.read<PetsManager>().fetchPets(false);
-  }
 
   @override
   Widget build(BuildContext context) {

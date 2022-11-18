@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/auth_manager.dart';
 import 'package:pet_adopt/models/managers/owner_manager.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/pets_model.dart';
-import 'package:pet_adopt/pages/detail/detail_screen.dart';
-import 'package:pet_adopt/pages/search/search_screen.dart';
-import 'package:pet_adopt/pages/viewall/viewall.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
+
+import 'package:pet_adopt/models/pets_model.dart';
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/screens.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,372 +27,393 @@ class _HomePageState extends State<HomePage> {
     Icons.chat_outlined,
     Icons.person
   ];
+  late Future<void> _fetchPets;
+  @override
+  void initState() {
+    super.initState();
+    _fetchPets = context.read<PetsManager>().fetchPets(false);
+    context.read<OwnerManager>().fetchOwners();
+  }
 
   @override
   Widget build(BuildContext context) {
-    context.read<OwnerManager>().fetchOwners();
-
-    var listPet = context.read<PetsManager>().getListPet(category);
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Location',
-                                style: poppins.copyWith(
-                                  fontSize: 14,
-                                  color: black.withOpacity(.6),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              const Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color: blue,
-                                size: 18,
-                              )
-                            ],
-                          ),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Can Tho, ',
-                                  style: poppins.copyWith(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: black),
-                                ),
-                                TextSpan(
-                                  text: 'Ninh Kieu',
-                                  style: poppins.copyWith(
-                                      fontSize: 24, color: black),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SearchScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          right: 5,
-                          top: 5,
-                          child: Container(
-                            height: 7,
-                            width: 7,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: red,
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.notifications_outlined),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    color: blue.withOpacity(.6),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: -35,
-                          right: -30,
-                          width: 150,
-                          height: 150,
-                          child: Transform.rotate(
-                            angle: 12,
-                            child: SvgPicture.asset(
-                              'assets/Paw_Print.svg',
-                              color: blue,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -35,
-                          left: -30,
-                          width: 150,
-                          height: 150,
-                          child: Transform.rotate(
-                            angle: -12,
-                            child: SvgPicture.asset(
-                              'assets/Paw_Print.svg',
-                              color: blue,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: -40,
-                          right: 100,
-                          width: 150,
-                          height: 150,
-                          child: Transform.rotate(
-                            angle: -60,
-                            child: SvgPicture.asset(
-                              'assets/Paw_Print.svg',
-                              color: blue,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 5,
-                          height: 135,
-                          child: Image.asset('assets/cats/cat2.png'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Join Our Animal\nLovers Community',
-                                style: poppins.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: white,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: orange),
-                                child: Text(
-                                  'Join Us',
-                                  style: poppins.copyWith(
-                                      color: white, fontSize: 14),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      'Categories',
-                      style: poppins.copyWith(
-                        color: black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Text(
-                          'View All',
-                          style: poppins.copyWith(
-                            color: orange,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: orange),
-                          child: const Icon(Icons.keyboard_arrow_right_rounded,
-                              size: 14, color: white),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              SingleChildScrollView(
-                child: Row(
-                  children: [
-                    const SizedBox(width: 20),
-                    Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        decoration: const BoxDecoration(color: white),
-                        child: const Icon(Icons.tune_rounded)),
-                    ...List.generate(
-                      categories.length,
-                      (index) => Padding(
-                        padding: index == 0
-                            ? const EdgeInsets.symmetric(horizontal: 20)
-                            : const EdgeInsets.only(right: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              category = categories[index];
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color:
-                                  categories[index] == category ? blue : white,
-                              boxShadow: [
-                                categories[index] == category
-                                    ? const BoxShadow(
-                                        offset: Offset(0, 5),
+        body: FutureBuilder(
+            future: _fetchPets,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                var listPet = context.read<PetsManager>().getListPet(category);
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Location',
+                                        style: poppins.copyWith(
+                                          fontSize: 14,
+                                          color: black.withOpacity(.6),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down_rounded,
                                         color: blue,
-                                        spreadRadius: 0,
-                                        blurRadius: 10)
-                                    : const BoxShadow(color: white)
+                                        size: 18,
+                                      )
+                                    ],
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Can Tho, ',
+                                          style: poppins.copyWith(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: black),
+                                        ),
+                                        TextSpan(
+                                          text: 'Ninh Kieu',
+                                          style: poppins.copyWith(
+                                              fontSize: 24, color: black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SearchScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Stack(
+                              children: [
+                                Positioned(
+                                  right: 5,
+                                  top: 5,
+                                  child: Container(
+                                    height: 7,
+                                    width: 7,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: red,
+                                    ),
+                                  ),
+                                ),
+                                const Icon(Icons.notifications_outlined),
                               ],
                             ),
-                            child: Text(
-                              categories[index],
-                              style: poppins.copyWith(
-                                  color: categories[index] == category
-                                      ? white
-                                      : black,
-                                  fontSize: 14),
-                            ),
-                          ),
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      'Adopt Pet',
-                      style: poppins.copyWith(
-                        color: black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Text(
-                          'View All',
-                          style: poppins.copyWith(
-                            color: orange,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ViewAllPage(
-                                    // pet: petsManager
-                                    //     .getListPet(category)[index]),
-                                    ),
-                              ),
-                            );
-                          },
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
                           child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: orange),
-                            child: const Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                size: 14,
-                                color: white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    listPet.length,
-                    (index) => Padding(
-                      padding: index == 0
-                          ? const EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                            )
-                          : const EdgeInsets.only(
-                              right: 20,
+                            height: 150,
+                            width: MediaQuery.of(context).size.width,
+                            color: blue.withOpacity(.6),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: -35,
+                                  right: -30,
+                                  width: 150,
+                                  height: 150,
+                                  child: Transform.rotate(
+                                    angle: 12,
+                                    child: SvgPicture.asset(
+                                      'assets/Paw_Print.svg',
+                                      color: blue,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: -35,
+                                  left: -30,
+                                  width: 150,
+                                  height: 150,
+                                  child: Transform.rotate(
+                                    angle: -12,
+                                    child: SvgPicture.asset(
+                                      'assets/Paw_Print.svg',
+                                      color: blue,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -40,
+                                  right: 100,
+                                  width: 150,
+                                  height: 150,
+                                  child: Transform.rotate(
+                                    angle: -60,
+                                    child: SvgPicture.asset(
+                                      'assets/Paw_Print.svg',
+                                      color: blue,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 5,
+                                  height: 135,
+                                  child: Image.asset('assets/cats/cat2.png'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Join Our Animal\nLovers Community',
+                                        style: poppins.copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: white,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 5),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: orange),
+                                        child: Text(
+                                          'Join Us',
+                                          style: poppins.copyWith(
+                                              color: white, fontSize: 14),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPage(
-                                pet: listPet[index],
-                                color: colorRandom[math.Random().nextInt(4)],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Categories',
+                              style: poppins.copyWith(
+                                color: black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          );
-                        },
-                        child: PetItem(context, listPet[index],
-                            colorRandom[math.Random().nextInt(4)]),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                Text(
+                                  'View All',
+                                  style: poppins.copyWith(
+                                    color: orange,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: orange),
+                                  child: const Icon(
+                                      Icons.keyboard_arrow_right_rounded,
+                                      size: 14,
+                                      color: white),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 15),
+                      SingleChildScrollView(
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                decoration: const BoxDecoration(color: white),
+                                child: const Icon(Icons.tune_rounded)),
+                            ...List.generate(
+                              categories.length,
+                              (index) => Padding(
+                                padding: index == 0
+                                    ? const EdgeInsets.symmetric(horizontal: 20)
+                                    : const EdgeInsets.only(right: 20),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      category = categories[index];
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: categories[index] == category
+                                          ? blue
+                                          : white,
+                                      boxShadow: [
+                                        categories[index] == category
+                                            ? const BoxShadow(
+                                                offset: Offset(0, 5),
+                                                color: blue,
+                                                spreadRadius: 0,
+                                                blurRadius: 10)
+                                            : const BoxShadow(color: white)
+                                      ],
+                                    ),
+                                    child: Text(
+                                      categories[index],
+                                      style: poppins.copyWith(
+                                          color: categories[index] == category
+                                              ? white
+                                              : black,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Adopt Pet',
+                              style: poppins.copyWith(
+                                color: black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                Text(
+                                  'View All',
+                                  style: poppins.copyWith(
+                                    color: orange,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const ViewAllPage(
+                                            // pet: petsManager
+                                            //     .getListPet(category)[index]),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: orange),
+                                    child: const Icon(
+                                        Icons.keyboard_arrow_right_rounded,
+                                        size: 14,
+                                        color: white),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                            listPet.length,
+                            (index) => Padding(
+                              padding: index == 0
+                                  ? const EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                    )
+                                  : const EdgeInsets.only(
+                                      right: 20,
+                                    ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPage(
+                                        pet: listPet[index],
+                                        color: colorRandom[
+                                            math.Random().nextInt(4)],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: PetItem(context, listPet[index],
+                                    colorRandom[math.Random().nextInt(4)]),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                    ],
                   ),
-                ),
-              ),
-              const SizedBox(height: 15),
-            ],
-          ),
-        ),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
       ),
     );
   }
@@ -494,7 +514,7 @@ class _HomePageState extends State<HomePage> {
                           color: pet.isFavorite ? red : black.withOpacity(.6),
                         ),
                         onPressed: () {
-                          pet.isFavorite = !isFavorite;
+                          ctx.read<PetsManager>().toggleFavoriteStatus(pet);
                         },
                       ),
                     ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:pet_adopt/pages/user/user_manager_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pet_adopt/pages/login/login_screen.dart';
+
+import 'package:pet_adopt/models/managers/auth_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/screens.dart';
+
 
 class SettingScreen extends StatelessWidget {
   static const routeName = '/setting';

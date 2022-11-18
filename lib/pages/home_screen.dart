@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:pet_adopt/pages/chat/chat_screen.dart';
-import 'package:pet_adopt/pages/home/home.dart';
 import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/pages/user/user_screen.dart';
-import 'package:pet_adopt/pages/viewall/viewall.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:pet_adopt/pages/screens.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
     Icons.person_outline_rounded
   ];
   List pages = [
-    HomePage(),
-    ViewAllPage(),
-    ChatPage(),
-    UserPage(),
+    const HomePage(),
+    const ViewAllPage(),
+    const ChatPage(),
+    const UserPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,13 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   child: Container(
                     height: 60,
-                    width: 50,
+                    width: 70,
                     padding: const EdgeInsets.all(5),
                     child: Stack(
                       children: [
-                        SizedBox(
+                        Container(
                           height: 60,
-                          width: 50,
+                          width: 70,
                           child: Column(
                             children: [
                               Icon(

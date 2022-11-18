@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/pages/user/user_edit_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+
+import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/pages/user/user_edit_screen.dart';
 
 class UserManagerScreen extends StatelessWidget {
   const UserManagerScreen({super.key});

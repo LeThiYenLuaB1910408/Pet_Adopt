@@ -28,7 +28,6 @@ class AuthManager with ChangeNotifier {
   }
 
   Future<void> signup(String email, String password) async {
-    print(email);
     AuthToken token = await _authService.signup(email, password);
     _setAuthToken(token);
     await OwnerManager().addOwner(
@@ -48,13 +47,10 @@ class AuthManager with ChangeNotifier {
   }
 
   Future<bool> tryAutoLogin() async {
-    print(777);
     final savedToken = await _authService.loadSavedAuthToken();
-    print(888);
     if (savedToken == null) {
       return false;
     }
-    print(savedToken.toJson());
     _setAuthToken(savedToken);
     return true;
   }

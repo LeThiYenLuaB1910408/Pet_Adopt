@@ -7,43 +7,7 @@ import 'package:pet_adopt/services/owner_service.dart';
 var accountsManager = AuthManager();
 
 class OwnerManager with ChangeNotifier {
-  List<Owner> _owners = [
-    // Owner(
-    //   id: 'owner1',
-    //   name: 'Sophia',
-    //   image: 'assets/owners/woman-with-cat1.png',
-    // ),
-    // Owner(
-    //   id: 'owner2',
-    //   name: 'Annie',
-    //   image: 'assets/owners/woman-with-cat2.png',
-    // ),
-    // Owner(
-    //   id: 'owner3',
-    //   name: 'Jessica',
-    //   image: 'assets/owners/woman-with-cat3.png',
-    // ),
-    // Owner(
-    //   id: 'owner4',
-    //   name: 'Julie',
-    //   image: 'assets/owners/woman-with-dog1.png',
-    // ),
-    // Owner(
-    //   id: 'owner5',
-    //   name: 'Jackson',
-    //   image: 'assets/owners/man-with-dog2.png',
-    // ),
-    // Owner(
-    //   id: 'owner6',
-    //   name: 'Mary',
-    //   image: 'assets/owners/woman-with-dog3.png',
-    // ),
-    // Owner(
-    //   id: 'owner7',
-    //   name: 'Min',
-    //   image: 'assets/owners/man-with-dog4.png',
-    // ),
-  ];
+  List<Owner> _owners = [];
 
   final OwnersService _ownersService;
 
@@ -88,23 +52,4 @@ class OwnerManager with ChangeNotifier {
   Owner findById(String id) {
     return _owners.firstWhere((prod) => prod.id == id);
   }
-
-  // Owner? auth(String username, String password) {
-  //   var res = accountsManager
-  //       .findAccount(Accounts(username: username, password: password));
-  //   if (res != null) {
-  //     return _owners
-  //         .firstWhere((element) => element.accounts.username == res.username);
-  //   }
-  //   return null;
-  // }
-
-  // bool addOwner(String username, String password) {
-  //   var res = accountsManager
-  //       .addAccount(Accounts(username: username, password: password));
-  //   if (res == true) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }

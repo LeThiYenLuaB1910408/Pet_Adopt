@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/owner_manager.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/owner_model.dart';
-import 'package:pet_adopt/models/pets_model.dart';
 import 'package:readmore/readmore.dart';
 import 'package:provider/provider.dart';
+
+import 'package:pet_adopt/models/owner_model.dart';
+import 'package:pet_adopt/models/pets_model.dart';
+
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+import 'package:pet_adopt/models/managers/owner_manager.dart';
+
+import 'package:pet_adopt/const.dart';
 
 class DetailPage extends StatefulWidget {
   final Pet pet;
@@ -19,9 +22,6 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  Future<void> _refreshPets(BuildContext context) async {
-    await context.read<OwnerManager>().fetchOwners();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,6 @@ class _DetailPageState extends State<DetailPage> {
         .read<OwnerManager>()
         .owners
         .firstWhere((element) => element.creatorId == widget.pet.creatorId);
-    print(1111);
-    print(widget.pet.name);
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -42,7 +40,7 @@ class _DetailPageState extends State<DetailPage> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   // widget.pet.color
-                  color: Colors.red.withOpacity(.5),
+                  color: widget.color.withOpacity(.5),
                 ),
                 child: Stack(
                   children: [
@@ -53,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
                         angle: -11.5,
                         child: SvgPicture.asset(
                           'assets/Paw_Print.svg',
-                          color: Colors.red,
+                          color: widget.color,
                           height: 300,
                         ),
                       ),
@@ -65,7 +63,7 @@ class _DetailPageState extends State<DetailPage> {
                         angle: 12,
                         child: SvgPicture.asset(
                           'assets/Paw_Print.svg',
-                          color: Colors.red,
+                          color: widget.color,
                           height: 300,
                         ),
                       ),

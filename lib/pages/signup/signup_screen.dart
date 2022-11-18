@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:flutter/gestures.dart';
-import 'package:pet_adopt/models/managers/owner_manager.dart';
-import 'package:pet_adopt/models/owner_model.dart';
 import 'package:pet_adopt/pages/login/login_screen.dart';
-import 'package:provider/provider.dart';
-import '../../models/http_exception.dart';
-import '../../shared/dialog_utils.dart';
+import 'package:pet_adopt/models/http_exception.dart';
+import 'package:pet_adopt/shared/dialog_utils.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

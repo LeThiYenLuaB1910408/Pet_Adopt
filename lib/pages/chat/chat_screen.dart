@@ -19,7 +19,7 @@ class ChatPage extends StatelessWidget {
             )),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => print('refresh products'),
+        onRefresh: () async => print('refresh chats'),
         child: buildChatsListView(chats),
       ),
     );

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adopt/const.dart';
-// import 'package:location/Search_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  static const routeName = '/search';
   const SearchScreen({super.key});
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -119,16 +117,6 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       child: TextField(
         onSubmitted: ((value) {
-          // if (!value.isEmpty) {
-          //   String searchRoom = value.substring(value.indexOf(' ') + 1);
-          //   var Room = int.parse(searchRoom);
-
-          //   // print(Room);
-          //   // Navigator.of(context).pushNamed(
-          //   //   SearchDetailScreen.routeName,
-          //   //   arguments: Room,
-          //   // );
-          // }
         }),
         onChanged: (value) {
           search.value = value;

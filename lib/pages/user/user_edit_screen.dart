@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adopt/const.dart';
-import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/pets_model.dart';
-import 'package:pet_adopt/shared/dialog_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdown_plus/dropdown_plus.dart';
+
+import 'package:pet_adopt/models/pets_model.dart';
+import 'package:pet_adopt/models/managers/pets_manager.dart';
+import 'package:pet_adopt/shared/dialog_utils.dart';
+
+import 'package:pet_adopt/const.dart';
 
 class UserEditScreen extends StatefulWidget {
   UserEditScreen(
@@ -51,18 +53,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 value.endsWith('.jpeg')));
   }
 
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
-  ];
-  String? selectedValue;
-
   @override
   void initState() {
     _imageFocusNode.addListener(() {
@@ -104,24 +94,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
     );
   }
 
-  // TextFormField buildIdOwnerFied() {
-  //   return TextFormField(
-  //     initialValue: _editedPet.idOwner,
-  //     decoration: const InputDecoration(labelText: 'IdOwner'),
-  //     textInputAction: TextInputAction.next,
-  //     autofocus: true,
-  //     validator: (value) {
-  //       if (value!.isEmpty) {
-  //         return 'Please provide a value.';
-  //       }
-  //       return null;
-  //     },
-  //     onSaved: (value) {
-  //       _editedPet = _editedPet.copyWith(idOwner: value);
-  //     },
-  //   );
-  // }
-
   Widget buildLocationFied() {
     return TextDropdownFormField(
       options: [
@@ -145,21 +117,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
         _editedPet = _editedPet.copyWith(location: value.toString());
       },
     );
-    // TextFormField(
-    //   initialValue: _editedPet.location,
-    //   decoration: const InputDecoration(labelText: 'Location'),
-    //   textInputAction: TextInputAction.next,
-    //   autofocus: true,
-    //   validator: (value) {
-    //     if (value!.isEmpty) {
-    //       return 'Please provide a value.';
-    //     }
-    //     return null;
-    //   },
-    //   onSaved: (value) {
-    //     _editedPet = _editedPet.copyWith(location: value);
-    //   },
-    // );
   }
 
   Widget buildTypeFied() {
@@ -180,19 +137,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
         _editedPet = _editedPet.copyWith(type: value.toString());
       },
     );
-    // TextFormField(
-    //   initialValue: _editedPet.type,
-    //   decoration: const InputDecoration(labelText: 'Type'),
-    //   textInputAction: TextInputAction.next,
-    //   autofocus: true,
-    //   validator: (value) {
-    //     if (value!.isEmpty) {
-    //       return 'Please provide a value.';
-    //     }
-    //     return null;
-    //   },
-    //
-    // );
   }
 
   Widget buildSexFied() {
@@ -216,19 +160,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
         _editedPet = _editedPet.copyWith(sex: value.toString());
       },
     );
-    // TextFormField(
-    //   initialValue: _editedPet.sex,
-    //   decoration: const InputDecoration(labelText: 'Sex'),
-    //   textInputAction: TextInputAction.next,
-    //   autofocus: true,
-    //   validator: (value) {
-    //     if (value!.isEmpty) {
-    //       return 'Please provide a value.';
-    //     }
-    //     return null;
-    //   },
-    //
-    // );
   }
 
   TextFormField buildAgeField() {
@@ -392,7 +323,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
       if (_editedPet.id != null) {
         await petsManager.updatePet(_editedPet);
       } else {
-        print(_editedPet.image);
         await petsManager.addPet(_editedPet);
       }
     } catch (error) {
