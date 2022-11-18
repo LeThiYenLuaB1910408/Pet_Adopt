@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/pages/user/user_edit_screen.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,8 @@ class UserManagerScreen extends StatelessWidget {
     final petsManager = PetsManager();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: blue,
         title: const Text('Your Pets'),
-        actions: <Widget>[
-          buildAddButton(context),
-        ],
       ),
       body: FutureBuilder(
         future: _refreshPets(context),
@@ -34,6 +33,21 @@ class UserManagerScreen extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserEditScreen(null)),
+          );
+        },
+        label: const Text(
+          'Add Pet',
+        ),
+        extendedTextStyle: poppins.copyWith(fontWeight: FontWeight.bold),
+        icon: const Icon(Icons.add),
+        backgroundColor: blue,
+      ),
+      bottomNavigationBar: Container(height: 30),
     );
   }
 
@@ -55,6 +69,7 @@ class UserManagerScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(
                         Icons.mode_edit_outline_outlined,
+                        color: blue,
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -96,18 +111,6 @@ class UserManagerScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget buildAddButton(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => UserEditScreen(null)),
-        );
-      },
-      icon: const Icon(Icons.add),
     );
   }
 }

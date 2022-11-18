@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
+import 'package:pet_adopt/models/managers/owner_manager.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
+import 'package:pet_adopt/models/owner_model.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:readmore/readmore.dart';
 import 'package:provider/provider.dart';
 
 class DetailPage extends StatefulWidget {
   final Pet pet;
-  const DetailPage({Key? key, required this.pet}) : super(key: key);
+  final dynamic color;
+  const DetailPage({Key? key, required this.pet, required this.color})
+      : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+  Future<void> _refreshPets(BuildContext context) async {
+    await context.read<OwnerManager>().fetchOwners();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Owner owner = context
+        .read<OwnerManager>()
+        .owners
+        .firstWhere((element) => element.creatorId == widget.pet.creatorId);
+    print(1111);
+    print(widget.pet.name);
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -221,7 +235,7 @@ class _DetailPageState extends State<DetailPage> {
                                     color: red,
                                     image: DecorationImage(
                                       image: AssetImage(
-                                          // widget.pet.owner.image,
+                                          // owner.image,
                                           "assets/cats/cat4.png"),
                                     )),
                               ),
@@ -232,7 +246,7 @@ class _DetailPageState extends State<DetailPage> {
                                   children: [
                                     Text(
                                       // widget.pet.owner.name,
-                                      "Lyly",
+                                      owner.name,
                                       style: poppins.copyWith(
                                           fontSize: 16,
                                           color: black,

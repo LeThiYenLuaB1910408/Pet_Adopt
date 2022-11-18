@@ -5,6 +5,7 @@ import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/pages/detail/detail_screen.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 enum FilterOptions { favorites, all }
 
@@ -24,7 +25,7 @@ class _ViewAllPageState extends State<ViewAllPage> {
   @override
   void initState() {
     super.initState();
-    _fetchPets = context.read<PetsManager>().fetchPets();
+    _fetchPets = context.read<PetsManager>().fetchPets(false);
   }
 
   @override
@@ -111,12 +112,16 @@ class _ViewAllPageState extends State<ViewAllPage> {
   }
 
   Widget PetGridTile(BuildContext context, Pet pet) {
+    print(pet.name);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailPage(pet: pet),
+            builder: (context) => DetailPage(
+              pet: pet,
+              color: colorRandom[math.Random().nextInt(4)],
+            ),
           ),
         );
       },

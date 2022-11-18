@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:pet_adopt/models/owner_model.dart';
+import 'package:flutter/foundation.dart';
 
 class Pet {
-  final String? id;
+  final String? id, creatorId;
   final String color;
   final String name, location, type, sex, image, description;
   final double age, weight;
   final int distance;
-  final String idOwner;
   final ValueNotifier<bool> _fav;
 
   Pet({
     this.id,
+    this.creatorId,
     required this.image,
     required this.color,
     required this.description,
@@ -22,7 +21,6 @@ class Pet {
     required this.age,
     required this.weight,
     required this.distance,
-    required this.idOwner,
     fav = false,
   }) : _fav = ValueNotifier(fav);
 
@@ -42,13 +40,13 @@ class Pet {
       'age': age,
       'weight': weight,
       'distance': distance,
-      'idOwner': idOwner,
     };
   }
 
   static Pet fromJson(Map<String, dynamic> json) {
     return Pet(
       id: json['id'],
+      creatorId: json['creatorId'],
       image: json['image'],
       color: json['color'],
       description: json['description'],
@@ -59,7 +57,6 @@ class Pet {
       age: json['age'],
       weight: json['weight'],
       distance: json['distance'],
-      idOwner: json['idOwner'],
     );
   }
 
@@ -73,6 +70,7 @@ class Pet {
 
   Pet copyWith({
     String? id,
+    String? creatorId,
     String? image,
     String? color,
     String? description,
@@ -83,11 +81,11 @@ class Pet {
     double? age,
     double? weight,
     int? distance,
-    String? idOwner,
     bool? fav,
   }) {
     return Pet(
       id: id ?? this.id,
+      creatorId: creatorId ?? this.creatorId,
       image: image ?? this.image,
       color: color ?? this.color,
       description: description ?? this.description,
@@ -98,7 +96,6 @@ class Pet {
       age: age ?? this.age,
       weight: weight ?? this.weight,
       distance: distance ?? this.distance,
-      idOwner: idOwner ?? this.idOwner,
       fav: fav ?? isFavorite,
     );
   }

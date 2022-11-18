@@ -44,19 +44,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _authData['email']!,
             _authData['password']!,
           );
-      await context.read<OwnerManager>().addOwner(
-            Owner(
-              name: _authData['email']!,
-              email: _authData['email']!,
-              phone: '',
-              address: '',
-              image: '',
-            ),
-          );
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-          (route) => false);
     } catch (error) {
       showErrorDialog(
           context,
@@ -64,8 +51,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ? error.toString()
               : 'Authentication failed');
     }
-
+    
     _isSubmitting.value = false;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override

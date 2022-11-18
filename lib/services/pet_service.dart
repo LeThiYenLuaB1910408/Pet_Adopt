@@ -12,9 +12,9 @@ class PetsService extends FirebaseService {
     try {
       final filters =
           filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
-      print(userId);
-      print(filters);
-      print(token);
+      print('userId $userId');
+      print('filter $filters');
+      print('token $token');
       final petsUrl = Uri.parse('$databaseUrl/pets.json?auth=$token&$filters');
       final response = await http.get(petsUrl);
       final petsMap = json.decode(response.body) as Map<String, dynamic>;
@@ -33,7 +33,7 @@ class PetsService extends FirebaseService {
         final isFavorite = (userFavoritesMap == null)
             ? false
             : (userFavoritesMap[petId] ?? false);
-
+        print(pet);
         pets.add(
           Pet.fromJson({
             'id': petId,

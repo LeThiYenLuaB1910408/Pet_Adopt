@@ -1,9 +1,10 @@
 class Owner {
   final String name, image, phone, address, email;
-  String? id;
+  String? id, creatorId;
 
   Owner({
     this.id,
+    this.creatorId,
     required this.name,
     required this.image,
     required this.email,
@@ -24,6 +25,7 @@ class Owner {
   static Owner fromJson(Map<String, dynamic> json) {
     return Owner(
       id: json['id'],
+      creatorId: json['creatorId'],
       image: json['image'],
       name: json['name'],
       email: json['email'],

@@ -13,16 +13,19 @@ class OwnersService extends FirebaseService {
     try {
       final filters =
           filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+      print(filters);
       final ownersUrl =
           Uri.parse('$databaseUrl/owners.json?auth=$token&$filters');
       final response = await http.get(ownersUrl);
       final ownersMap = json.decode(response.body) as Map<String, dynamic>;
-
+      print(ownersMap);
       if (response.statusCode != 200) {
         print(ownersMap['error']);
         return owners;
       }
       ownersMap.forEach((ownerId, owner) {
+        print(ownerId);
+        print(owner);
         owners.add(
           Owner.fromJson({
             'id': ownerId,
@@ -30,6 +33,7 @@ class OwnersService extends FirebaseService {
           }),
         );
       });
+      print(owners[0].creatorId);
       return owners;
     } catch (error) {
       print(error);
@@ -37,15 +41,15 @@ class OwnersService extends FirebaseService {
     }
   }
 
-  Future<Owner?> addOwner(Owner owner) async {
+  Future<Owner?> addOwner(Owner owner, AuthToken token) async {
     try {
-      final url = Uri.parse('$databaseUrl/owners.json?auth=$token');
+      final url = Uri.parse('$databaseUrl/owners.json?auth=${token.token}');
       final response = await http.post(
         url,
         body: json.encode(
           owner.toJson()
             ..addAll({
-              'creatorId': userId,
+              'creatorId': token.userId,
             }),
         ),
       );

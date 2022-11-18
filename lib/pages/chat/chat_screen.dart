@@ -10,7 +10,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: white,
+        backgroundColor: blue,
         title: Text('Chats',
             style: poppins.copyWith(
               // color: black,

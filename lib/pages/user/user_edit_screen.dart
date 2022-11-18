@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pet_adopt/models/managers/owner_manager.dart';
+import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
-import 'package:pet_adopt/models/owner_model.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/shared/dialog_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:dropdown_plus/dropdown_plus.dart';
 
 class UserEditScreen extends StatefulWidget {
   UserEditScreen(
@@ -24,7 +24,6 @@ class UserEditScreen extends StatefulWidget {
         age: 0,
         weight: 0,
         distance: 0,
-        idOwner: "",
       );
     } else {
       this.pet = pet;
@@ -51,6 +50,18 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 value.endsWith('.jpg') ||
                 value.endsWith('.jpeg')));
   }
+
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+    'Item5',
+    'Item6',
+    'Item7',
+    'Item8',
+  ];
+  String? selectedValue;
 
   @override
   void initState() {
@@ -93,76 +104,131 @@ class _UserEditScreenState extends State<UserEditScreen> {
     );
   }
 
-  TextFormField buildIdOwnerFied() {
-    return TextFormField(
-      initialValue: _editedPet.idOwner,
-      decoration: const InputDecoration(labelText: 'IdOwner'),
-      textInputAction: TextInputAction.next,
-      autofocus: true,
-      validator: (value) {
-        if (value!.isEmpty) {
+  // TextFormField buildIdOwnerFied() {
+  //   return TextFormField(
+  //     initialValue: _editedPet.idOwner,
+  //     decoration: const InputDecoration(labelText: 'IdOwner'),
+  //     textInputAction: TextInputAction.next,
+  //     autofocus: true,
+  //     validator: (value) {
+  //       if (value!.isEmpty) {
+  //         return 'Please provide a value.';
+  //       }
+  //       return null;
+  //     },
+  //     onSaved: (value) {
+  //       _editedPet = _editedPet.copyWith(idOwner: value);
+  //     },
+  //   );
+  // }
+
+  Widget buildLocationFied() {
+    return TextDropdownFormField(
+      options: [
+        "Ninh Kieu, Can Tho",
+        "Cai Rang, Can Tho",
+        "Binh Thuy, Can Tho",
+        "Phong Dien, Can Tho"
+      ],
+      decoration: InputDecoration(
+          // border: OutlineInputBorder(),
+          suffixIcon: Icon(Icons.arrow_drop_down),
+          labelText: "Location"),
+      dropdownHeight: 240,
+      validator: (dynamic value) {
+        if (value.toString().isEmpty) {
           return 'Please provide a value.';
         }
         return null;
       },
-      onSaved: (value) {
-        _editedPet = _editedPet.copyWith(idOwner: value);
+      onChanged: (dynamic value) {
+        _editedPet = _editedPet.copyWith(location: value.toString());
       },
     );
+    // TextFormField(
+    //   initialValue: _editedPet.location,
+    //   decoration: const InputDecoration(labelText: 'Location'),
+    //   textInputAction: TextInputAction.next,
+    //   autofocus: true,
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       return 'Please provide a value.';
+    //     }
+    //     return null;
+    //   },
+    //   onSaved: (value) {
+    //     _editedPet = _editedPet.copyWith(location: value);
+    //   },
+    // );
   }
 
-  TextFormField buildLocationFied() {
-    return TextFormField(
-      initialValue: _editedPet.location,
-      decoration: const InputDecoration(labelText: 'Location'),
-      textInputAction: TextInputAction.next,
-      autofocus: true,
-      validator: (value) {
-        if (value!.isEmpty) {
+  Widget buildTypeFied() {
+    return TextDropdownFormField(
+      options: ["Cats", "Dogs", "Hamsters"],
+      decoration: InputDecoration(
+          // border: OutlineInputBorder(),
+          suffixIcon: Icon(Icons.arrow_drop_down),
+          labelText: "Type"),
+      dropdownHeight: 180,
+      validator: (dynamic value) {
+        if (value.toString().isEmpty) {
           return 'Please provide a value.';
         }
         return null;
       },
-      onSaved: (value) {
-        _editedPet = _editedPet.copyWith(location: value);
+      onChanged: (dynamic value) {
+        _editedPet = _editedPet.copyWith(type: value.toString());
       },
     );
+    // TextFormField(
+    //   initialValue: _editedPet.type,
+    //   decoration: const InputDecoration(labelText: 'Type'),
+    //   textInputAction: TextInputAction.next,
+    //   autofocus: true,
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       return 'Please provide a value.';
+    //     }
+    //     return null;
+    //   },
+    //
+    // );
   }
 
-  TextFormField buildTypeFied() {
-    return TextFormField(
-      initialValue: _editedPet.type,
-      decoration: const InputDecoration(labelText: 'Type'),
-      textInputAction: TextInputAction.next,
-      autofocus: true,
-      validator: (value) {
-        if (value!.isEmpty) {
+  Widget buildSexFied() {
+    return TextDropdownFormField(
+      options: ["Male", "Female"],
+      decoration: InputDecoration(
+          // border: OutlineInputBorder(),
+          suffixIcon: Icon(Icons.arrow_drop_down),
+          labelText: "Sex"),
+      dropdownHeight: 120,
+      validator: (dynamic value) {
+        if (value.toString().isEmpty) {
           return 'Please provide a value.';
         }
         return null;
       },
-      onSaved: (value) {
-        _editedPet = _editedPet.copyWith(type: value);
+      onChanged: (dynamic value) {
+        _editedPet = _editedPet.copyWith(sex: value.toString());
+      },
+      onSaved: (dynamic value) {
+        _editedPet = _editedPet.copyWith(sex: value.toString());
       },
     );
-  }
-
-  TextFormField buildSexFied() {
-    return TextFormField(
-      initialValue: _editedPet.sex,
-      decoration: const InputDecoration(labelText: 'Sex'),
-      textInputAction: TextInputAction.next,
-      autofocus: true,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Please provide a value.';
-        }
-        return null;
-      },
-      onSaved: (value) {
-        _editedPet = _editedPet.copyWith(sex: value);
-      },
-    );
+    // TextFormField(
+    //   initialValue: _editedPet.sex,
+    //   decoration: const InputDecoration(labelText: 'Sex'),
+    //   textInputAction: TextInputAction.next,
+    //   autofocus: true,
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       return 'Please provide a value.';
+    //     }
+    //     return null;
+    //   },
+    //
+    // );
   }
 
   TextFormField buildAgeField() {
@@ -346,6 +412,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: blue,
         title: const Text('Edit Pet'),
         actions: [
           IconButton(
@@ -365,9 +432,11 @@ class _UserEditScreenState extends State<UserEditScreen> {
                 child: ListView(
                   children: [
                     buildNameFied(),
-                    buildIdOwnerFied(),
+                    // buildIdOwnerFied(),
                     buildLocationFied(),
+                    SizedBox(height: 10),
                     buildTypeFied(),
+                    SizedBox(height: 10),
                     buildSexFied(),
                     buildAgeField(),
                     buildWeightField(),

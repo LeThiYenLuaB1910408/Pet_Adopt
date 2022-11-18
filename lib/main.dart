@@ -4,10 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_adopt/models/managers/owner_manager.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/managers/auth_manager.dart';
-import 'package:pet_adopt/pages/home_screen.dart';
-import 'package:pet_adopt/pages/login/login_screen.dart';
 import 'package:pet_adopt/pages/onboard/onboard_screen.dart';
-import 'package:pet_adopt/pages/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -29,37 +26,38 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => AuthManager(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => OwnerManager(),
+          create: (ctx) {
+            return AuthManager();
+          },
         ),
         ChangeNotifierProxyProvider<AuthManager, PetsManager>(
-          create: (ctx) => PetsManager(),
+          create: (ctx) {
+            return PetsManager();
+          },
           update: (ctx, authManager, petsManager) {
             petsManager!.authToken = authManager.authToken;
             return petsManager;
           },
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => PetsManager(),
+        ChangeNotifierProxyProvider<AuthManager, OwnerManager>(
+          create: (ctx) => OwnerManager(),
+          update: (ctx, authManager, ownersManager) {
+            ownersManager!.authToken = authManager.authToken;
+            return ownersManager;
+          },
         ),
-        // ChangeNotifierProvider(
-        //   create: (ctx) => CartManager(),
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (ctx) => OrdersManager(),
-        // ),
-        // ),
       ],
       child: Consumer<AuthManager>(
-        builder: (ctx, authManager, child) => MaterialApp(
+        builder: (ctx, authManager, child) {
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Pet Adopt',
             theme: ThemeData(
               primarySwatch: Colors.blueGrey,
             ),
-            home: const OnBoardPage()),
+            home: const OnBoardPage(),
+          );
+        },
       ),
     );
   }

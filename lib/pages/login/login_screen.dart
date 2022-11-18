@@ -42,8 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
             _authData['email']!,
             _authData['password']!,
           );
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     } catch (error) {
       showErrorDialog(
           context,
@@ -53,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     _isSubmitting.value = false;
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   @override

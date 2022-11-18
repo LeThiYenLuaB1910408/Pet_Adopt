@@ -14,12 +14,16 @@ abstract class FirebaseService {
   }
 
   set authToken(AuthToken? authToken) {
+    print('firebase ${authToken?.token}');
     _token = authToken?.token;
     _userId = authToken?.userId;
   }
 
   @protected
-  String? get token => _token;
+  String? get token {
+    print('firebase token $_token');
+    return _token;
+  }
 
   @protected
   String? get userId => _userId;

@@ -124,12 +124,12 @@ class SettingScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: GestureDetector(
                   onTap: () {
+                    context.read<AuthManager>().logout();
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const LoginScreen()),
                         (route) => false);
-                    context.read<AuthManager>().logout();
                   },
                   child: Row(
                     children: [

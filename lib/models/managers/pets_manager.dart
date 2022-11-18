@@ -1,17 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/models/auth_token.dart';
-import 'package:pet_adopt/models/managers/owner_manager.dart';
 import 'package:pet_adopt/models/pets_model.dart';
 import 'package:pet_adopt/services/pet_service.dart';
 
-String desc =
-    'This cat is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic cat to distinguish it from the wild members of the family. A cat can either be a house cat, a farm cat or a feral cat, the latter rangers freely and avoids human contacts. Domestic cats are valued by humans for companionship and their ability to kill redonts. About 60 cat breeds are recognized by various cat registries. ';
-String title =
-    'This dog is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic dog to distinguish it from the wild members of the family. A dog can either be a house dog, a farm dog or a feral dog, the latter rangers freely and avoids human contacts. Domestic dogs are valued by humans for companionship and their ability to kill redonts. About 60 dog breeds are recognized by various dog registries. ';
-String tl =
-    'This hamster is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic hamster to distinguish it from the wild members of the family. A hamster can either be a house hamster, a farm hamster or a feral hamster, the latter rangers freely and avoids human contacts. Domestic hamsters are valued by humans for companionship and their ability to kill redonts. About 60 hamster breeds are recognized by various hamster registries. ';
-var ownersManager = OwnerManager();
+// String desc =
+//     'This cat is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic cat to distinguish it from the wild members of the family. A cat can either be a house cat, a farm cat or a feral cat, the latter rangers freely and avoids human contacts. Domestic cats are valued by humans for companionship and their ability to kill redonts. About 60 cat breeds are recognized by various cat registries. ';
+// String title =
+//     'This dog is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic dog to distinguish it from the wild members of the family. A dog can either be a house dog, a farm dog or a feral dog, the latter rangers freely and avoids human contacts. Domestic dogs are valued by humans for companionship and their ability to kill redonts. About 60 dog breeds are recognized by various dog registries. ';
+// String tl =
+//     'This hamster is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is often reffered to as the domestic hamster to distinguish it from the wild members of the family. A hamster can either be a house hamster, a farm hamster or a feral hamster, the latter rangers freely and avoids human contacts. Domestic hamsters are valued by humans for companionship and their ability to kill redonts. About 60 hamster breeds are recognized by various hamster registries. ';
+// var ownersManager = OwnerManager();
 
 class PetsManager with ChangeNotifier {
   // final List<Pet> _cats = [
@@ -188,7 +186,7 @@ class PetsManager with ChangeNotifier {
   }
 
   Future<void> fetchPets([bool filterByUser = false]) async {
-    print(filterByUser);
+    print('petmanager $filterByUser');
     _pets = await _petsService.fetchPets(filterByUser);
     notifyListeners();
   }

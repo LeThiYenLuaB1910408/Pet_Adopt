@@ -1,41 +1,10 @@
-// import 'package:pet_adopt/models/accounts_model.dart';
-
-// class AuthManager {
-//   final List<Accounts> _accounts = [
-//     Accounts(username: "quoctrang", password: "123456"),
-//     Accounts(username: "quoctrang", password: "123456"),
-//     Accounts(username: "quoctrang", password: "123456"),
-//   ];
-//   List<Accounts> get accounts {
-//     return _accounts;
-//   }
-
-//   Accounts? findAccount(Accounts account) {
-//     var result = _accounts.firstWhere(
-//         (props) => props.username == account.username,
-//         orElse: () => Accounts(username: '', password: ''));
-//     if (result.password == account.password) {
-//       return result;
-//     }
-//     return null;
-//   }
-
-//   bool addAccount(Accounts account) {
-//     var result = _accounts.firstWhere(
-//         (props) => props.username == account.username,
-//         orElse: () => Accounts(username: '', password: ''));
-//     if (result.username == '') {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-// }
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:pet_adopt/models/managers/owner_manager.dart';
+import 'package:pet_adopt/models/owner_model.dart';
 
-import '../../models/auth_token.dart';
+import '../auth_token.dart';
 import '../../services/auth_service.dart';
 
 class AuthManager with ChangeNotifier {
@@ -60,7 +29,18 @@ class AuthManager with ChangeNotifier {
 
   Future<void> signup(String email, String password) async {
     print(email);
-    _setAuthToken(await _authService.signup(email, password));
+    AuthToken token = await _authService.signup(email, password);
+    _setAuthToken(token);
+    await OwnerManager().addOwner(
+      Owner(
+        name: email,
+        email: email,
+        phone: '',
+        address: '',
+        image: '',
+      ),
+      token,
+    );
   }
 
   Future<void> login(String email, String password) async {
@@ -68,11 +48,13 @@ class AuthManager with ChangeNotifier {
   }
 
   Future<bool> tryAutoLogin() async {
+    print(777);
     final savedToken = await _authService.loadSavedAuthToken();
+    print(888);
     if (savedToken == null) {
       return false;
     }
-
+    print(savedToken.toJson());
     _setAuthToken(savedToken);
     return true;
   }

@@ -59,8 +59,8 @@ class OwnerManager with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addOwner(Owner owner) async {
-    final newOwner = await _ownersService.addOwner(owner);
+  Future<void> addOwner(Owner owner, AuthToken token) async {
+    final newOwner = await _ownersService.addOwner(owner, token);
     if (newOwner != null) {
       _owners.add(newOwner);
       notifyListeners();
