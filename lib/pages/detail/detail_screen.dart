@@ -233,8 +233,8 @@ class _DetailPageState extends State<DetailPage> {
                                     color: red,
                                     image: DecorationImage(
                                       image: AssetImage(
-                                          // owner.image,
-                                          "assets/cats/cat4.png"),
+                                          owner.image,
+                                          ),
                                     )),
                               ),
                               const SizedBox(width: 10),

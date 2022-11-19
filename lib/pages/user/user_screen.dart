@@ -59,7 +59,7 @@ class UserPage extends StatelessWidget {
                 builder: (context, ownerManager, child) =>
                     SingleChildScrollView(
                   child: Container(
-                      height: MediaQuery.of(context).size.height * .84,
+                      height: MediaQuery.of(context).size.height * 1.1,
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       child: Column(
                         children: [
@@ -373,7 +373,9 @@ class UserPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Spacer(),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: const BoxDecoration(
