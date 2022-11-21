@@ -7,7 +7,6 @@ import 'package:pet_adopt/models/managers/auth_manager.dart';
 import 'package:pet_adopt/const.dart';
 import 'package:pet_adopt/pages/screens.dart';
 
-
 class SettingScreen extends StatelessWidget {
   static const routeName = '/setting';
   const SettingScreen({Key? key}) : super(key: key);
@@ -16,6 +15,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: blue,
           title: Text(
             "Setting",
             style: poppins.copyWith(
