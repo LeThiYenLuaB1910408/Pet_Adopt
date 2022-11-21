@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pet_adopt/const.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pet_adopt/models/managers/owner_manager.dart';
 import 'package:pet_adopt/models/managers/pets_manager.dart';
 import 'package:pet_adopt/models/managers/auth_manager.dart';

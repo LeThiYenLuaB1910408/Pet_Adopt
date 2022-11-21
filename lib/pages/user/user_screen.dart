@@ -67,15 +67,19 @@ class UserPage extends StatelessWidget {
                             child: Container(
                               height: 120,
                               width: 120,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: colorRandom[math.Random().nextInt(4)],
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      ownerManager.owners.first.image),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                              decoration: ownerManager
+                                      .owners.first.image.isNotEmpty
+                                  ? BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                          colorRandom[math.Random().nextInt(4)],
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            ownerManager.owners.first.image),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : BoxDecoration(),
                               child: ownerManager.owners.first.image.isEmpty
                                   ? CircleAvatar(
                                       backgroundColor: blue,
